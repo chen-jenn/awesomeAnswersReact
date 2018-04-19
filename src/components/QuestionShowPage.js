@@ -1,6 +1,8 @@
 import React from 'react';
 import {QuestionDetails} from './QuestionDetails';
 import {AnswerDetails} from './AnswerDetails';
+import{AnswerList} from './AnswerList';
+import detailedQuestion from '../data/detailedQuestion';
 
 function QuestionShowPage(props){
   return(
@@ -13,10 +15,8 @@ function QuestionShowPage(props){
         created_at={new Date().toLocaleString()}
       />
       <h2>Answers</h2>
-      <AnswerDetails //passing in arguments that are used by the props argument
-        body="green things"
-        user={{full_name: "doge"}}
-        created_at={new Date().toLocaleString()}
+      <AnswerList
+        answers={detailedQuestion.answers}
       />
     </main>
   )
