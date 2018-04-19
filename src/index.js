@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-// Create a Component------------------------------------------------------
+// Creating Components------------------------------------------------------
 function QuestionDetails(props){//function needs to have a capital letter otherwise React thinks it is just html
   return (
     <div className="QuestionDetails">
@@ -19,7 +19,6 @@ function QuestionDetails(props){//function needs to have a capital letter otherw
 function AnswerDetails(props){
   return ( //this is technically optional but can just className named after your function name
     <div className="AnswerDetails">
-      <h1>Answers</h1>
       <p>yellow</p>
       <p>By: Doge Shiba</p>
       <p><strong>Created:</strong> 2018-01-01</p>
@@ -27,13 +26,23 @@ function AnswerDetails(props){
   )
 }
 
+function QuestionShowPage(props){
+  return(
+    <main className="QuestionShowPage">
+      <QuestionDetails />
+      <h2>Answers</h2>
+      <AnswerDetails />
+    </main>
+  )
+}
+
 //Rendering Views------------------------------------------------------
-ReactDOM.render(<QuestionDetails />,
+ReactDOM.render(<QuestionShowPage />,
   document.getElementById('root')//calling React.createElement FUNCTION
 );
 
-ReactDOM.render(<AnswerDetails />,
-  document.getElementById('answers')
-);
+// ReactDOM.render(<AnswerDetails />, //can only render one component so we have everything as descendants instead of having so many of these
+//   document.getElementById('answers')
+// );
 
 registerServiceWorker();
