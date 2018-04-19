@@ -4,45 +4,51 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 // Creating Components------------------------------------------------------
-function QuestionDetails(props){//function needs to have a capital letter otherwise React thinks it is just html
+function QuestionDetails(props){
   return (
     <div className="QuestionDetails">
-      <h1>What is your favourite colour?</h1>
-      <p>Red, green, blue, magenta, yellow</p>
-      <p>By Bridge Troll</p>
-      <p><strong>View Count: </strong>111</p>
-      <p><strong>Created</strong> 2018-01-01</p>
+      <h1>{props.title}</h1>
+      <p>{props.body}</p>
+      <p>By: {props.user.full_name}</p>
+       <p><strong>View Count: </strong>{props.view_count}</p>
+      <p><strong>Created at: </strong>{props.created_at}</p>
     </div>
-  )
+  );
 }
 
-function AnswerDetails(props){
-  return ( //this is technically optional but can just className named after your function name
+function AnswerDetails(props){ //props is an object containing your data
+  return ( //giving a className to a div is technically optional but why not
     <div className="AnswerDetails">
-      <p>yellow</p>
-      <p>By: Doge Shiba</p>
-      <p><strong>Created:</strong> 2018-01-01</p>
+      <p>{props.body}</p>
+      <p>By: {props.user.full_name}</p>
+      <p><strong>Created:</strong> {props.created_at}</p>
     </div>
-  )
+  );
 }
 
 function QuestionShowPage(props){
   return(
     <main className="QuestionShowPage">
-      <QuestionDetails />
+      <QuestionDetails
+        title="What is your favourite colour?"
+        body="Red, blue, magenta, cyan"
+        user={{full_name: "Jen"}}
+        view_count={1000}
+        created_at={new Date().toLocaleString()}
+      />
       <h2>Answers</h2>
-      <AnswerDetails />
+      <AnswerDetails //passing in arguments that are used by the props argument
+        body="green things"
+        user={{full_name: "doge"}}
+        created_at={new Date().toLocaleString()}
+      />
     </main>
   )
 }
 
 //Rendering Views------------------------------------------------------
-ReactDOM.render(<QuestionShowPage />,
+ReactDOM.render(<QuestionShowPage />, //can only render one component so we have everything as descendants instead of having so many of these ReactDOM.render as that can get quite messy
   document.getElementById('root')//calling React.createElement FUNCTION
 );
-
-// ReactDOM.render(<AnswerDetails />, //can only render one component so we have everything as descendants instead of having so many of these
-//   document.getElementById('answers')
-// );
 
 registerServiceWorker();
