@@ -23,15 +23,22 @@ import detailedQuestion from '../data/detailedQuestion';
 
 //Refactoring the above as a class
 class QuestionShowPage extends Component {
+  constructor(props){
+    super(props); //must always say super(props) otherwise errors 
+    this.state = {
+      question: detailedQuestion //store your data here
+    }
+  }
+
   render(){
     return(
       <main className="QuestionShowPage">
         <QuestionDetails
-          {...detailedQuestion}
+          {...this.state.question}
         />
         <h2>Answers</h2>
         <AnswerList
-          answers={detailedQuestion.answers}
+          answers={this.state.question.answers}
         />
       </main>
     )
