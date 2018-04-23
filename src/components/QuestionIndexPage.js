@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Field} from './Field';
-import allQuestions from "../data/allQuestions"; //not using braces because it was using export default
+import { Question } from "../requests/question";
 
 
 class QuestionIndexPage extends Component {
@@ -10,11 +10,20 @@ class QuestionIndexPage extends Component {
 
     //set up the state; the object is what you can initialize with any data you want
     this.state = {
-      questions: allQuestions //store the data in the state instead; and then use this.state.questions.map etc. below
+      loading: true, //allow for like a loading bar
+      questions: [] //store the data in the state instead; and then use this.state.questions.map etc. below
     }
 
     //Methods that are used as callbacks will no longer be owned by their instance once they're called. Meaning that their 'this' will be either undefined or 'Window'. Use 'bind' on the method to permanently set its 'this' to the instance's 'this'
-    // this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.deleteQuestion = this.deleteQuestion.bind(this);
+  }
+
+  componentDidMount(){
+    Question
+      .all()
+      .then(questions => {
+        this.setState({questions: questions, loading: false})
+      });
   }
 
   //passing the arrow function that deleteQuestion returns
@@ -31,9 +40,16 @@ class QuestionIndexPage extends Component {
   }
 
   render(){
+    if(this.state.loading){
+      return(
+        <main className="QuestionIndexPage">
+          <h2>Loading Questions...</h2>
+        </main>
+      );
+    }
     return (
       <main className="QuestionIndexPage">
-        <h1>Questions</h1>
+        <h2>Questions</h2>
         <ul>
           {
             this.state.questions.map(

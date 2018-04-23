@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {QuestionDetails} from './QuestionDetails';
 import{AnswerList} from './AnswerList';
-import detailedQuestion from '../data/detailedQuestion';
+import AnswerForm from './AnswerForm';
+import {Question} from "../requests/question";
 
 // function QuestionShowPage(props){
 //   return(
@@ -21,15 +22,27 @@ import detailedQuestion from '../data/detailedQuestion';
 //   )
 // }
 
+
 //Refactoring the above as a class
 class QuestionShowPage extends Component {
   constructor(props){
     super(props); //must always say super(props) otherwise errors
     this.state = {
-      question: detailedQuestion //store your data here
+      loading: true,
+      question: {} //store your data here
     }
 
-    this.deleteQuestion = this.deleteQuestion.bind(this)
+    this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.deleteAnswer = this.deleteAnswer.bind(this);
+    this.createAnswer = this.createAnswer.bind(this);
+  }
+
+  componentDidMount(){
+    Question
+      .one(229)
+      .then(question => {
+        this.setState({question: question, loading: false})
+      })
   }
 
   deleteQuestion(){
@@ -37,8 +50,41 @@ class QuestionShowPage extends Component {
       question: {}
     });
   }
+//avoid nesting states; the deeper a state is, the harder it is for React to figure out if it needs to re-render
+//When creating react compomnents, try to keep your state flat as much as possible. Deeply nested state is hard to work with and is more difficult for React to figure out if it needs to re-render you components
+  createAnswer(answer){
+    const {question} = this.state;
+    const {answers, ...restQuestion} = question;
+
+    this.setState({
+      question:{
+        ...restQuestion,
+        answers: [{...answer, id: Math.random()*10000, created_at: new Date()}].concat(answers)
+      }
+    })
+  }
+
+  deleteAnswer(answerId){
+    const {question} = this.state;
+    //this will get all the other properties that are not the 'answers'
+    const {answers = [], ...restQuestion} = question;
+
+    this.setState({
+      question: {
+        ...restQuestion,
+        answers: answers.filter(a => a.id !== answerId)
+      }
+    })
+  }
 
   render(){
+    if(this.state.loading){
+      return(
+        <main className="QuestionShowPage">
+          <h2>Loading Question...</h2>
+        </main>
+      );
+    }
     if (!this.state.question.id){
       return (
         <main className="QuestionShowPage">
@@ -54,7 +100,11 @@ class QuestionShowPage extends Component {
           <button onClick={this.deleteQuestion}>Delete</button>
 
           <h2>Answers</h2>
+          <AnswerForm
+            onSubmit={this.createAnswer}
+          />
           <AnswerList
+            onAnswerDeleteClick={this.deleteAnswer}
             answers={this.state.question.answers}
           />
         </main>
