@@ -39,7 +39,7 @@ class QuestionShowPage extends Component {
 
   componentDidMount(){
     Question
-      .one(229)
+      .one(216)
       .then(question => {
         this.setState({question: question, loading: false})
       })

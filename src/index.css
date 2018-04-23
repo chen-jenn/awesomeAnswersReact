@@ -5,5 +5,31 @@ body {
 }
 
 main{
-  padding: 0 20px; 
+  padding: 0 20px;
+}
+
+.NavBar{
+  display: flex;
+  background-color: black;
+  color: white;
+}
+
+.NavBar * {
+  /* make every descendent of the navbar white so that includes links */
+  color: inherit;
+}
+
+.NavBar > * {
+  padding: 0.75em 0.5em;
+  text-decoration: none;
+  border-top: 5px solid black;
+  transition: border-color 0.5s 0s; /*for the border-color property, take 0.5s to transition from the old value to the new value. 0s is how long it takes for the animation to start */
+}
+
+.NavBar > .active { /*any child with the active class will have this extra feature so you know where you are*/
+  border-top: 5px solid white;
+}
+
+.NavBar > *:first-child{
+  margin-left: auto; 
 }
