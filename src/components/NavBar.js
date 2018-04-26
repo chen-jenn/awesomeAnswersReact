@@ -4,13 +4,22 @@ import {NavLink} from "react-router-dom"; //add an html attribute class if we ar
 import {CurrentDateTime} from "./CurrentDateTime";
 
 function NavBar(props){ //if you dont have any states in a componoent, just use a regular function and not a class
+  const{user} = props;
+
   return(
     <nav className="NavBar">
       <NavLink exact to="/">Home</NavLink>
       <NavLink exact to="/questions">Questions</NavLink>
       <NavLink exact to="/questions/new">Add New</NavLink>
-      <NavLink exact to="/sign_in">Sign In</NavLink>
-      <CurrentDateTime /> 
+      
+      {user? (
+        <span>Hello, {user.first_name}!</span>
+      ) : (
+        <NavLink exact to="/sign_in">Sign In</NavLink>
+      )
+
+      }
+      <CurrentDateTime />
     </nav>
   )
 }

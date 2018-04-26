@@ -42,12 +42,13 @@ class App extends Component {
   }
 
   render(){
+    const {user} = this.state;
       return(
         // When using react-router, you must make the <Router> component the root component of your application. <Router> component can only have one child.
         //routes to show specific components
         <Router>
           <div className="App">
-            <NavBar />
+            <NavBar user={user} />
             <Switch>
               {/* Switch forces there to be only one Route component that matches, not two. The first one that matches is the only one that renders inside of Switch. So order will matter */}
               <Route exact path="/questions" component={QuestionIndexPage} />

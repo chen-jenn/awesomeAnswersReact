@@ -33,8 +33,8 @@ class SignInPage extends Component {
     Token
       .create(tokenParams)
       .then(data => {
+        localStorage.setItem('JWT', data.jwt); //local storage needs to be before onSignIn because the state change from sign in is fast enough that it isnt set in local storage yet 
         onSignIn(data);
-        localStorage.setItem('JWT', data.jwt);
         this.props.history.push("/"); //send the user back home once they have signed in
       });
   }
