@@ -31,4 +31,4 @@ class CurrentDateTime extends Component{
   }
 }
 
-export default CurrentDateTime;
+export {CurrentDateTime};

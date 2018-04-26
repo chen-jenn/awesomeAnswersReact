@@ -38,8 +38,14 @@ class QuestionShowPage extends Component {
   }
 
   componentDidMount(){
+    // Components rendered by the <Route /> component are given three props:
+    // -history: is used to manipulate the browser history allowing you to programmatically send a user to different locations
+    // -location: which holds information about the url location of the user
+    // -match: which holds the params for the current url
+    // console.log(this.props);
+    const questionId = this.props.match.params.id;
     Question
-      .one(216)
+      .one(questionId)
       .then(question => {
         this.setState({question: question, loading: false})
       })
