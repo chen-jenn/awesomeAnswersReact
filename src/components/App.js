@@ -22,6 +22,7 @@ class App extends Component {
       user: null
     }
     this.signInUser = this.signInUser.bind(this)
+    this.signOutUser = this.signOutUser.bind(this)
   }
 
   componentWillMount(){ //so component loaded with the correct state
@@ -41,6 +42,11 @@ class App extends Component {
     }
   }
 
+  signOutUser(){
+    localStorage.removeItem("JWT");
+    this.setState({user:null});
+  }
+
   render(){
     const {user} = this.state;
       return(
@@ -48,7 +54,7 @@ class App extends Component {
         //routes to show specific components
         <Router>
           <div className="App">
-            <NavBar user={user} />
+            <NavBar user={user} onSignOut={this.signOutUser}/>
             <Switch>
               {/* Switch forces there to be only one Route component that matches, not two. The first one that matches is the only one that renders inside of Switch. So order will matter */}
               <Route exact path="/questions" component={QuestionIndexPage} />
