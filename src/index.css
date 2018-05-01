@@ -31,5 +31,12 @@ main{
 }
 
 .NavBar > *:first-child{
-  margin-left: auto; 
+  margin-left: auto;
+}
+
+.FormErrors{
+  padding: 0 0 0 1em;
+  color: red;
+  margin: 0;
+  font-size: 0.7em; 
 }
