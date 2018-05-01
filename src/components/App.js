@@ -14,6 +14,8 @@ import {NavBar} from "./NavBar";
 import {SignInPage} from './SignInPage';
 import jwtDecode from "jwt-decode";
 import {AuthRoute} from './AuthRoute';
+import {NotFoundPage} from './NotFoundPage'
+import {HomePage} from './HomePage'
 
 class App extends Component {
   constructor(props){
@@ -58,12 +60,14 @@ class App extends Component {
             <NavBar user={user} onSignOut={this.signOutUser}/>
             <Switch>
               {/* Switch forces there to be only one Route component that matches, not two. The first one that matches is the only one that renders inside of Switch. So order will matter. Use authroute for all your routes depending on what you have given permission to in the backend Rails app */}
-              <AuthRoute exact path="/questions" component={QuestionIndexPage} />
+              <Route exact path= "/" component={HomePage} />
+              <Route exact path="/questions" component={QuestionIndexPage} />
               <AuthRoute isAuthenticated={!!user} path="/questions/new" component={QuestionNewPage} />
-              <AuthRoute path="/questions/:id" component={QuestionShowPage} />
+              <AuthRoute isAuthenticated={!!user} path="/questions/:id" component={QuestionShowPage} />
               <Route path="/sign_in"
               render={props =>  <SignInPage {...props} onSignIn={this.signInUser} />}
               />
+              <Route component={NotFoundPage}/>
           </Switch>
         </div>
       </Router>
