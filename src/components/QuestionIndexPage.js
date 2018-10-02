@@ -11,6 +11,7 @@ class QuestionIndexPage extends Component {
 
     //set up the state; the object is what you can initialize with any data you want
     this.state = {
+      page: 1,
       loading: true, //allow for like a loading bar
       questions: [] //store the data in the state instead; and then use this.state.questions.map etc. below
     }
@@ -19,9 +20,18 @@ class QuestionIndexPage extends Component {
     this.deleteQuestion = this.deleteQuestion.bind(this);
   }
 
+  componentWillMount(){
+    const queryString = this.props.location.search;
+    const page = new URLSearchParams(queryString).get("page");
+
+    this.setState({
+      page: parseInt(page, 10)
+    });
+  }
+
   componentDidMount(){
     Question
-      .all()
+      .all({page: this.state.page})
       .then(questions => {
         this.setState({questions: questions, loading: false})
       });
@@ -71,6 +81,10 @@ class QuestionIndexPage extends Component {
             )
           }
         </ul>
+
+        <Link to={`/questions?page=${this.state.page + 1}`} >
+          Next Page
+        </Link>
       </main>
     )
   }

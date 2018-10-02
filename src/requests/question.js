@@ -3,7 +3,7 @@ const DOMAIN = 'localhost:3000';
 const API_PATH = '/api/v1';
 const BASE_URL = `http://${DOMAIN}${API_PATH}`
 
-//get the unique token per user so it is not hard-coded in 
+//get the unique token per user so it is not hard-coded in
 function getJWT(){
   return localStorage.getItem('JWT');
 }
@@ -16,10 +16,12 @@ export const Question = { //can also export on the same line
       { headers: { 'Authorization' : getJWT() } }
     ).then(response => response.json())
   },
-  all() {
+  all(queryParams) {
     return fetch(
-      `${BASE_URL}/questions`,
-      { headers: { 'Authorization' : getJWT() } }
+      `${BASE_URL}/questions?${new URLSearchParams(queryParams).toString()}`,
+      {
+        headers: { 'Authorization' : getJWT() }
+      }
     ).then(response => response.json())
   },
   create(params) {
